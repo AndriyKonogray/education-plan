@@ -1,5 +1,5 @@
 package planeModel;
 
-public enum Category {
+public enum OrganizationCategory {
     UNIVERSITY, INTERNSHIP, MEETING, SELF_EDUCATION
 }

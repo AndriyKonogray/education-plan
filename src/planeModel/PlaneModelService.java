@@ -2,19 +2,25 @@ package planeModel;
 
 public class PlaneModelService {
     private Student student;
+    private UserActivity userActivity;
 
-    public void createStudent(){
+    public void createStudent() {
         student = new Student();
     }
 
-    public void addOrganization(Organization organization){
-        if(student != null) createStudent();
-        student.addOrganization(organization);
+    public void addUserActivity(UserActivity userActivity) {
+        if(student == null) createStudent();
+        this.userActivity = userActivity;
+        student.addUserActivity(userActivity);
     }
 
-    public Student educationEnd(){
+    public Student educationEnd() {
         Student celebrationsStudent = student;
         student = null;
         return celebrationsStudent;
+    }
+
+    public void usePlan() {
+        userActivity.apply(student);
     }
 }
