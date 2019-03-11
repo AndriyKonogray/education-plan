@@ -1,0 +1,7 @@
+<application>
+  <component name="GithubAccounts">
+    <account id="465fe3a1-5f7f-44df-bf8e-552a1e6fbeb8" name="andriikon@tahometer.com">
+      <server host="github.com" />
+    </account>
+  </component>
+</application>
