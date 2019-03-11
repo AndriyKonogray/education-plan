@@ -18,8 +18,12 @@
           <option name="url" value="https://github.com/andriikonoh/education-plan.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/AndriyKonogray/education-plan.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="D:\" />
+    <option name="cloneParentDir" value="D:\workspase" />
   </component>
 </application>
