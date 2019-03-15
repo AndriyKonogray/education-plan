@@ -4,20 +4,26 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 
-public class MeetUp implements OrganizationType {
+public class MeetUp extends Organization {
     private final DayOfWeek dayOfWeek;
     private final int timesPerMonth;
     private int actualTimes;
     private Month lastMonth;
 
-    public MeetUp(DayOfWeek dayOfWeek, int timesPerMonth) {
+    public MeetUp(String name, int practicePerDay, int theoryPerDay, DayOfWeek dayOfWeek, int timesPerMonth) {
+        setName(name);
+        setPracticePerDay(practicePerDay);
+        setTheoryPerDay(theoryPerDay);
         this.dayOfWeek = dayOfWeek;
         this.timesPerMonth = timesPerMonth;
         actualTimes = timesPerMonth;
         lastMonth = LocalDate.now().getMonth();
     }
 
-    @Override
+    public boolean isDayOk(LocalDate date, Student student) {
+        return true;
+    }
+
     public int getDays(EducationPeriod educationPeriod) {
         int allDays = 0;
         LocalDate date = LocalDate.from(educationPeriod.getStartDate());
@@ -37,7 +43,6 @@ public class MeetUp implements OrganizationType {
         return allDays;
     }
 
-    @Override
     public String apply(EducationPeriod educationPeriod, int amount, int practicePerDay,
                         int theoryPerDay, int discussionPerDay) {
         LocalDate today = LocalDate.now().plusDays(amount);

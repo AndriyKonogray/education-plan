@@ -1,16 +1,11 @@
 package planeModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Student {
     private String name;
     private double learningRate;
-    private int theoreticalExperience;
-    private int practiceExperience;
-    private int discussionExperience;
-    private List<Organization> organizations = new ArrayList<>();
     private Stuff studentsStuff;
+    private int practiceExperience;
+    private int knowledge;
 
     public Student(String name, double learningRate, Stuff studentsStuff) {
         this.name = name;
@@ -21,50 +16,32 @@ public class Student {
     public Student() {
     }
 
-    public int getTotalExperience() {
-        setDiscussionExperience();
-        setPracticeExperience();
-        setTheoreticalExperience();
-        return theoreticalExperience + practiceExperience + discussionExperience;
+
+    public void takeKnowledge(Plan plan, EducationPeriod educationPeriod) {
+       plan.goTakeKnowledge(educationPeriod, this);
     }
 
-    private int getExperience(ExperienceCategory category) {
-        double takeExp = 0;
-        if (this.organizations.size() != 0){
-            for(Organization o : organizations) {
-                switch (category) {
-                    case PRACTICE:
-                        takeExp += o.practicePerDay * o.getDays(this) * getStudentsStuff().getNotebook();
-                        break;
-                    case DISCUSSION:
-                        takeExp += o.discussionPerDay * o.getDays(this);
-                        break;
-                    case THEORETICAL:
-                    default:
-                        takeExp += o.theoryPerDay * learningRate * o.getDays(this);
-                        break;
-                }
-            }
-        }
-        return (int) takeExp;
+    public  int getKnowledge() {
+        return knowledge;
     }
 
-    public void setTheoreticalExperience() {
-        theoreticalExperience += getExperience(ExperienceCategory.THEORETICAL);
+    public void practice(Plan plan, EducationPeriod educationPeriod) {
+        plan.goPractice(educationPeriod, this);
     }
 
-    public void setPracticeExperience() {
-        practiceExperience += getExperience(ExperienceCategory.PRACTICE);
+    public int getPracticeExperience() {
+        return practiceExperience;
     }
 
-    public void setDiscussionExperience() {
-        discussionExperience += getExperience(ExperienceCategory.DISCUSSION);
+    private void setPracticeExperience(int practiceExperience) {
+        this.practiceExperience = practiceExperience;
     }
 
-    public void setOrganizations(List<Organization> organizations) {
-        this.organizations = organizations;
+    private void setKnowledge(int knowledge) {
+        this.knowledge += knowledge;
     }
 
+    //------------------------------------------------------------------------------
     public String getName() {
         return name;
     }

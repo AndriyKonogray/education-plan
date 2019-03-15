@@ -6,46 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaneModelService {
-    private Student student;
-    private List<Organization> organizations;
-    private String resultMessage;
-    private int days;
 
-    public void createStudent(Student student) {
-        this.student = new Student(student.getName(), student.getLearningRate(), student.getStudentsStuff());
-        organizations = new ArrayList<>();
-    }
-
-    public void createStudent() {
-        this.student = new Student();
-        organizations = new ArrayList<>();
-    }
-
-    public void addOrganization(Organization organization) {
-        if(student == null) createStudent();
-        organizations.add(organization);
-    }
-
-    public Student educationEnd() {
-        this.student.setOrganizations(organizations);
-        Student celebrationsStudent = this.student;
-        student = null;
-        return celebrationsStudent;
-    }
-
-    public void addStudentInToOrganizationRecruitedList(Organization organization) {
-        organization.addStudent(this.student);
-    }
-
-    public void createPlan(int totalDay) {
-        this.student.setOrganizations(organizations);
-        resultMessage = "";
-        for(days = 0; days < totalDay; days++) {
-            resultMessage += dayOfWeek(days);
-            organizations.forEach(o ->
-                    resultMessage += o.createPlan(student, days));
-            resultMessage += "\n";
-        }
+    public void workWithPlan(Student students, Plan plan, EducationPeriod educationPeriod) {
+        students.practice(plan, educationPeriod);
+        students.takeKnowledge(plan, educationPeriod);
     }
 
     public String dayOfWeek(int days) {
@@ -59,9 +23,5 @@ public class PlaneModelService {
                 case SATURDAY: return "SATURDAY\n";
                 default: return "SUNDAY\n";
             }
-    }
-
-    public String getPlane() {
-        return resultMessage;
     }
 }

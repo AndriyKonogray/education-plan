@@ -3,49 +3,51 @@ package planeModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Organization {
-    private EducationPeriod educationPeriod;
+abstract class Organization implements Condition {
     private String name;
-    final int theoryPerDay;
-    final int practicePerDay;
-    final int discussionPerDay;
+    private int theoryPerDay;
+    private int practicePerDay;
     private List<Student> recruitedStudents = new ArrayList<>();
-    OrganizationType organizationType;
+    private boolean onlyWorkDay = false;
+    private EducationPeriod educationPeriod;
 
-    public Organization(String name, OrganizationType organizationType, EducationPeriod educationPeriod,
-                        int theoryPerDay, int practicePerDay, int discussionPerDay) {
-        this.theoryPerDay = theoryPerDay;
-        this.practicePerDay = practicePerDay;
-        this.discussionPerDay = discussionPerDay;
-        this.educationPeriod = educationPeriod;
-        this.organizationType = organizationType;
+    public void setOnlyWorkDay(boolean onlyWorkDay) {
+        this.onlyWorkDay = onlyWorkDay;
+    }
+
+    public void setRecruitedStudents(List<Student> recruitedStudents) {
+        this.recruitedStudents = recruitedStudents;
+    }
+
+    public int getTheoryPerDay() {
+        return theoryPerDay;
+    }
+
+    public int getPracticePerDay() {
+        return practicePerDay;
+    }
+
+    public List<Student> getRecruitedStudents() {
+        return recruitedStudents;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Organization(OrganizationType organizationType, EducationPeriod educationPeriod, int theoryPerDay,
-                        int practicePerDay, int discussionPerDay) {
-        this(null, organizationType, educationPeriod, theoryPerDay, practicePerDay, discussionPerDay);
+    public void setPracticePerDay(int practicePerDay) {
+        this.practicePerDay = practicePerDay;
     }
 
-    public int getDays(Student student) {
-        if(isRecruited(student)) return organizationType.getDays(educationPeriod);
-        else return 0;
+    public void setTheoryPerDay(int theoryPerDay) {
+        this.theoryPerDay = theoryPerDay;
     }
 
-    private boolean isRecruited(Student student) {
-        for(Student s : recruitedStudents)
-            if(student.equals(s)) return true;
-        return false;
-    }
-
-    public void addStudent(Student student) {
-        if(student.getLearningRate() > 0.4)
-        recruitedStudents.add(student);
-    }
-
-    public String createPlan(Student student, int i) {
-        if(isRecruited(student)) return organizationType.apply(educationPeriod, i, practicePerDay,
-                theoryPerDay, discussionPerDay);
-        else return "";
+    public void setEducationPeriod(EducationPeriod educationPeriod) {
+        this.educationPeriod = educationPeriod;
     }
 }
