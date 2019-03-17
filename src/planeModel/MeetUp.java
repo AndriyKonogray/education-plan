@@ -4,11 +4,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 
-public class MeetUp extends Organization {
+public class MeetUp extends Activity {
     private final DayOfWeek dayOfWeek;
     private final int timesPerMonth;
     private int actualTimes;
-    private Month lastMonth;
+    private Month month;
 
     public MeetUp(String name, int practicePerDay, int theoryPerDay, DayOfWeek dayOfWeek, int timesPerMonth) {
         setName(name);
@@ -16,48 +16,31 @@ public class MeetUp extends Organization {
         setTheoryPerDay(theoryPerDay);
         this.dayOfWeek = dayOfWeek;
         this.timesPerMonth = timesPerMonth;
-        actualTimes = timesPerMonth;
-        lastMonth = LocalDate.now().getMonth();
+        actualTimes = timesPerMonth*2;
+        month = LocalDate.now().getMonth();
     }
 
     public boolean isDayOk(LocalDate date, Student student) {
-        return true;
+        boolean checkAll = true;
+        if(checkAll) checkAll = isWorkDay(date);
+        if(checkAll) checkAll = isMeetUpActual(date);
+        if(checkAll && isItsPractice()) checkAll = isStudentTakeNotebook(student);
+        return checkAll;
     }
 
-    public int getDays(EducationPeriod educationPeriod) {
-        int allDays = 0;
-        LocalDate date = LocalDate.from(educationPeriod.getStartDate());
-        Month lastMonth = date.getMonth().minus(1);
-        int times = 0;
-        while(date.isBefore(educationPeriod.getEndDate().plusDays(1))) {
-            if(times == 0 && !date.getMonth().equals(lastMonth)) {
-                times = timesPerMonth;
-                lastMonth = date.getMonth();
-            }
-            if(date.getDayOfWeek() == dayOfWeek && times > 0) {
-                allDays ++;
-                times --;
-            }
-            date = date.plusDays(1);
-        }
-        return allDays;
+    private boolean isStudentTakeNotebook(Student student) {
+            return student.getStudentsStuff().getNotebook();
     }
 
-    public String apply(EducationPeriod educationPeriod, int amount, int practicePerDay,
-                        int theoryPerDay, int discussionPerDay) {
-        LocalDate today = LocalDate.now().plusDays(amount);
-        if(today.isAfter(educationPeriod.getStartDate().minusDays(1)) &&
-                today.isBefore(educationPeriod.getEndDate().plusDays(1))) {
-            if(actualTimes == 0 && !today.getMonth().equals(lastMonth)) {
-                actualTimes = timesPerMonth;
-                lastMonth = today.getMonth();
+    private boolean isMeetUpActual(LocalDate date) {
+        if(date.getMonth().equals(month) && actualTimes > 0 && dayOfWeek.equals(date.getDayOfWeek())) {
+            actualTimes--;
+            if(actualTimes == 0) {
+                month = month.plus(1);
+                actualTimes = timesPerMonth*2;
             }
-            if(today.getDayOfWeek() == dayOfWeek && actualTimes > 0) {
-                actualTimes--;
-                return String.format("MeetUp practice %d, theory %d\n", practicePerDay,
-                        theoryPerDay + discussionPerDay);
-            }
+            return true;
         }
-        return "";
+        else return false;
     }
 }

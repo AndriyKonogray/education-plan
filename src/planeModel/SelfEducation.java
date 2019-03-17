@@ -2,13 +2,12 @@ package planeModel;
 
 import java.time.LocalDate;
 
-public class SelfEducation extends Organization {
+public class SelfEducation extends Activity {
 
-    public SelfEducation (String name, int practicePerDay, int theoryPerDay, EducationPeriod educationPeriod) {
+    public SelfEducation (String name, int practicePerDay, int theoryPerDay) {
         setName(name);
         setPracticePerDay(practicePerDay);
         setTheoryPerDay(theoryPerDay);
-        setEducationPeriod(educationPeriod);
     }
 
     public boolean isDayOk(LocalDate date, Student student) {

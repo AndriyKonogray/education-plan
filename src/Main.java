@@ -1,179 +1,107 @@
+import planeModel.*;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
+    static PlaneModelService planeModelService  = new PlaneModelService();
+    static Stuff stuff = new Stuff(true, true, true);
+    static List<Student> students = new ArrayList<>();
+    static LocalDate date2019_3_10 = LocalDate.of(2019, 3, 10);
+    static LocalDate date2016_3_1 = LocalDate.of(2016, 3, 1);
 
     public static void main(String[] args) {
-        // createPacifist();
-        // createSelfExplorer();
-        // createTheoretic();
-        //  createTheLivingWeapon();
-    }
-/*
-
-    private static void createTheLivingWeapon() {
-        Stuff stuff = new Stuff(true, true, true);
-        PlaneModelService planeModelService  = new PlaneModelService();
-        Student initialStudent = new Student("Andrii", 0.5, stuff);
-        planeModelService.createStudent(initialStudent);
-
-        LocalDate date = LocalDate.of(2016, 9, 1);
-        EducationPeriod educationPeriod = new EducationPeriod(date, date.plusYears(5));
-        Condition organizationType = new University();
-        Activity activity = new Activity(organizationType, educationPeriod,
-                5, 1, 2);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
-
-        date = LocalDate.of(2016, 10, 15);
-        educationPeriod = new EducationPeriod(date, date.plusYears(3));
-        organizationType = new MeetUp(DayOfWeek.THURSDAY, 1);
-        activity = new Activity(organizationType, educationPeriod,
-                3, 6, 3);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
-
-        date = LocalDate.of(2017, 1, 1);
-        educationPeriod = new EducationPeriod(date, date.plusYears(3));
-        organizationType = new MeetUp(DayOfWeek.MONDAY, 1);
-        activity = new Activity(organizationType, educationPeriod,
-                4, 3, 4);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
-
-        date = LocalDate.of(2019, 3, 4);
-        educationPeriod = new EducationPeriod(date, date.plusMonths(3));
-        organizationType = new InternShip();
-        activity = new Activity(organizationType, educationPeriod,
-                4, 10, 3);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
-
-        date = LocalDate.of(2015, 1, 1);
-        educationPeriod = new EducationPeriod(date, date.plusYears(5));
-        organizationType = new SelfEducation();
-        activity = new Activity(organizationType, educationPeriod,
-                2, 2, 0);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
-
-        date = LocalDate.of(2019, 3, 10);
-        educationPeriod = new EducationPeriod(date);
-        organizationType = new Meeting();
-        activity = new Activity(organizationType, educationPeriod,
-                4, 8, 4);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
-
-        date = LocalDate.of(2019, 3, 15);
-        educationPeriod = new EducationPeriod(date);
-        organizationType = new Meeting();
-        activity = new Activity(organizationType, educationPeriod,
-                6, 4, 2);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
-
-        date = LocalDate.of(2019, 1, 11);
-        educationPeriod = new EducationPeriod(date);
-        organizationType = new Meeting();
-        activity = new Activity(organizationType, educationPeriod,
-                1, 10, 1);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
-
-        planeModelService.createPlan(7);
-        System.out.println(planeModelService.getPlane());
-        initialStudent = planeModelService.educationEnd();
-        System.out.println(initialStudent.getTotalExperience());
+        createPacifist();
+        createSelfExplorer();
+        createTheoretic();
+        createTheLivingWeapon();
     }
 
-    private static void createTheoretic() {
-        Stuff stuff = new Stuff(false, true, true);
-        PlaneModelService planeModelService  = new PlaneModelService();
-        Student initialStudent = new Student("Andrii", 0.5, stuff);
-        planeModelService.createStudent(initialStudent);
+        private static void createTheLivingWeapon() {
+            Plan livingWeaponPlan = new Plan("livingWeaponPLan");
+            EducationPeriod educationPeriodForPlan = new EducationPeriod(date2019_3_10, date2019_3_10.plusDays(4));
+            EducationPeriod educationPeriodForActivity = new EducationPeriod(date2019_3_10.minusDays(9),
+                    date2019_3_10.minusDays(10).plusMonths(3));
+            Student student = new Student("Andrii", 0.5, stuff);
+            students.add(student);
 
-        LocalDate date = LocalDate.of(2018, 9, 1);
-        EducationPeriod educationPeriod = new EducationPeriod(date, date.plusYears(5));
-        Condition organizationType = new University();
-        Activity activity = new Activity(organizationType, educationPeriod,
-                3, 2, 2);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
+            livingWeaponPlan.addActivity(new MeetUp("Oop", 4, 6,
+                    DayOfWeek.THURSDAY, 1));
+            livingWeaponPlan.addActivity(new SelfEducation("coursesFromMyHart", 4, 4));
+            livingWeaponPlan.addActivity(new InternShip("InCamp", 10, 6,
+                    educationPeriodForActivity));
+            educationPeriodForActivity = new EducationPeriod(date2016_3_1, date2016_3_1.plusYears(5));
+            livingWeaponPlan.addActivity(new Meeting("Valentin", 2, 4, date2019_3_10.plusDays(3)));
+            livingWeaponPlan.addActivity(new University("chdtu", 2, 10,
+                    educationPeriodForActivity));
 
-        date = LocalDate.of(2018, 10, 15);
-        educationPeriod = new EducationPeriod(date, date.plusMonths(6));
-        organizationType = new MeetUp(DayOfWeek.THURSDAY, 1);
-        activity = new Activity(organizationType, educationPeriod,
-                5, 6, 6);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
+            planeModelService.recruited(student, livingWeaponPlan, "chdtu");
+            planeModelService.recruited(student, livingWeaponPlan, "InCamp");
+            planeModelService.workWithPlan(students, livingWeaponPlan, educationPeriodForPlan);
+            System.out.printf("%s Practice:%d Knowledge:%d\n", livingWeaponPlan.getName(),
+                    student.getPracticeExperience(), student.getKnowledge());
+            students = new ArrayList<>();
+        }
 
-        date = LocalDate.of(2019, 1, 1);
-        educationPeriod = new EducationPeriod(date, date.plusMonths(6));
-        organizationType = new MeetUp(DayOfWeek.MONDAY, 1);
-        activity = new Activity(organizationType, educationPeriod,
-                3, 10, 2);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
+        private static void createTheoretic() {
+            Plan theoreticPlan = new Plan("theoreticPlan");
+            EducationPeriod educationPeriodForPlan = new EducationPeriod(date2019_3_10, date2019_3_10.plusDays(4));
+            EducationPeriod educationPeriodForActivity = new EducationPeriod(date2016_3_1, date2016_3_1.plusYears(5));
+            Student student = new Student("Andrii", 0.5, stuff);
+            students.add(student);
 
-        planeModelService.createPlan(7);
-        System.out.println(planeModelService.getPlane());
-        initialStudent = planeModelService.educationEnd();
-        System.out.println(initialStudent.getTotalExperience());
-    }
+            theoreticPlan.addActivity(new University("chdtu", 2, 10,
+                    educationPeriodForActivity));
+            theoreticPlan.addActivity(new MeetUp("Oop", 4, 6,
+                    DayOfWeek.THURSDAY, 1));
+            theoreticPlan.addActivity(new MeetUp("Git", 2, 6,
+                    DayOfWeek.MONDAY, 1));
 
-    private static void createSelfExplorer() {
-        Stuff stuff = new Stuff(true, true, true);
-        PlaneModelService planeModelService  = new PlaneModelService();
-        Student initialStudent = new Student("Andrii", 0.5, stuff);
-        planeModelService.createStudent(initialStudent);
+            planeModelService.recruited(student, theoreticPlan, "chdtu");
+            planeModelService.workWithPlan(students, theoreticPlan, educationPeriodForPlan);
+            System.out.printf("%s Practice:%d Knowledge:%d\n", theoreticPlan.getName(),
+                    student.getPracticeExperience(), student.getKnowledge());
+            students = new ArrayList<>();
+        }
 
-        LocalDate date = LocalDate.of(2019, 3, 4);
-        EducationPeriod educationPeriod = new EducationPeriod(date, date.plusMonths(3));
-        Condition organizationType = new InternShip();
-        Activity activity = new Activity(organizationType, educationPeriod,
-                6, 10, 4);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
 
-        date = LocalDate.of(2018, 10, 15);
-        educationPeriod = new EducationPeriod(date, date.plusMonths(6));
-        organizationType = new MeetUp(DayOfWeek.THURSDAY, 1);
-        activity = new Activity(organizationType, educationPeriod,
-                5, 6, 6);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
+        private static void createSelfExplorer() {
+            Plan explorerPlan = new Plan("explorer");
+            EducationPeriod educationPeriodForPlan = new EducationPeriod(date2019_3_10, date2019_3_10.plusDays(4));
+            EducationPeriod educationPeriodForActivity = new EducationPeriod(date2019_3_10.minusDays(9),
+                    date2019_3_10.minusDays(10).plusMonths(3));
+            Student student = new Student("Andrii", 0.5, stuff);
+            students.add(student);
 
-        date = LocalDate.of(2018, 1, 1);
-        educationPeriod = new EducationPeriod(date, date.plusYears(2));
-        organizationType = new SelfEducation();
-        activity = new Activity(organizationType, educationPeriod,
-                3, 2, 0);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
+            explorerPlan.addActivity(new MeetUp("Oop", 4, 6,
+                    DayOfWeek.THURSDAY, 1));
+            explorerPlan.addActivity(new SelfEducation("coursesFromMyHart", 4, 4));
+            explorerPlan.addActivity(new InternShip("InCamp", 10, 6,
+                    educationPeriodForActivity));
 
-        planeModelService.createPlan(7);
-        System.out.println(planeModelService.getPlane());
-        initialStudent = planeModelService.educationEnd();
-        System.out.println(initialStudent.getTotalExperience());
-    }
+            planeModelService.recruited(student, explorerPlan, "InCamp");
+            planeModelService.workWithPlan(students, explorerPlan, educationPeriodForPlan);
+            System.out.printf("%s Practice:%d Knowledge:%d\n", explorerPlan.getName(),
+                    student.getPracticeExperience(), student.getKnowledge());
+            students = new ArrayList<>();
+        }
 
     private static void createPacifist() {
-        Stuff stuff = new Stuff(false, false, false);
-        PlaneModelService planeModelService  = new PlaneModelService();
-        Student initialStudent = new Student("Andrii", 0.5, stuff);
-        planeModelService.createStudent(initialStudent);
+        Plan pacifistPlan = new Plan("pacifist");
+        EducationPeriod educationPeriodForPlan = new EducationPeriod(date2019_3_10, date2019_3_10.plusDays(4));
+        EducationPeriod educationPeriodForActivity = new EducationPeriod(date2016_3_1, date2016_3_1.plusYears(5));
+        Student student = new Student("Andrii", 0.5, stuff);
+        students.add(student);
 
-        LocalDate date = LocalDate.of(2018, 9, 1);
-        EducationPeriod educationPeriod = new EducationPeriod(date, date.plusYears(6));
-        Condition organizationType = new University();
-        Activity activity = new Activity(organizationType, educationPeriod,
-                4, 1, 1);
-        planeModelService.addOrganization(activity);
-        planeModelService.addStudentInToOrganizationRecruitedList(activity);
+        pacifistPlan.addActivity(new University("chdtu", 2, 10,
+                educationPeriodForActivity));
 
-        planeModelService.createPlan(7);
-        System.out.println(planeModelService.getPlane());
-        initialStudent = planeModelService.educationEnd();
-        System.out.println(initialStudent.getTotalExperience());
+        planeModelService.recruited(student, pacifistPlan, "chdtu");
+        planeModelService.workWithPlan(students, pacifistPlan, educationPeriodForPlan);
+        System.out.printf("%s Practice:%d Knowledge:%d\n", pacifistPlan.getName(),
+                student.getPracticeExperience(), student.getKnowledge());
+        students = new ArrayList<>();
     }
-*/
 }

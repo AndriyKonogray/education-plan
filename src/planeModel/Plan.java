@@ -6,9 +6,7 @@ import java.util.List;
 
 public class Plan {
     private String name;
-    private Condition condition;
-    private List<Organization> organizations = new ArrayList<>();
-    private int result;
+    private List<Activity> activities = new ArrayList<>();
 
     public Plan(String name) {
         this.name = name;
@@ -18,35 +16,23 @@ public class Plan {
         return name;
     }
 
-    public int goPractice(EducationPeriod educationPeriod, Student student) {
-        result = 0;
-        organizations.forEach(o -> {
-            condition = o;
-            result = o.getPracticePerDay()*getDays(educationPeriod, student);
-        });
-       return result;
+    public List<Activity> getActivities() {
+        return activities;
     }
 
-    public int getDays(EducationPeriod educationPeriod, Student student) {
-        int allDays = 0;
-        LocalDate date = LocalDate.from(educationPeriod.getStartDate());
-        while(date.isBefore(educationPeriod.getEndDate().plusDays(1))) {
-            if(condition.isDayOk(date, student)) allDays ++;
-            date = date.plusDays(1);
-        }
-        return allDays;
+    public int goPractice(LocalDate date, Student student, Activity activity) {
+            activity.setItsPractice(true);
+            if(activity.isDayOk(date, student)) return activity.getPracticePerDay();
+            else return 0;
     }
 
-    public int goTakeKnowledge(EducationPeriod educationPeriod, Student student) {
-        result = 0;
-        organizations.forEach(o -> {
-            condition = o;
-            result = o.getTheoryPerDay()*getDays(educationPeriod, student);
-        });
-        return result;
+    public int goTakeKnowledge(LocalDate date, Student student, Activity activity) {
+        activity.setItsPractice(false);
+        if(activity.isDayOk(date, student)) return activity.getTheoryPerDay();
+        else return 0;
     }
 
-    public void addOrganization(Organization organization) {
-        organizations.add(organization);
+    public void addActivity(Activity activity) {
+        activities.add(activity);
     }
 }

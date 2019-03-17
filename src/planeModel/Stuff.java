@@ -11,18 +11,7 @@ public class Stuff {
         this.pen = pen;
     }
 
-    public int getNotebook() {
-        if(notebook) return 1;
-        else return 0;
-    }
-
-    public int getNotePad() {
-        if(notebook) return 1;
-        else return 0;
-    }
-
-    public int getPen() {
-        if(notebook) return 1;
-        else return 0;
+    public boolean getNotebook() {
+        return notebook;
     }
 }
